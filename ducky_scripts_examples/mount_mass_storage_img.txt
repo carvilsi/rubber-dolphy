@@ -1,0 +1,5 @@
+REM Execute this ducky script in order to 
+REM mount the image on your computer 
+REM and get the data on it.
+
+STORAGE
