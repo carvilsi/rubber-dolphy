@@ -113,8 +113,7 @@ BadUsbApp* bad_usb_app_alloc(char* arg) {
     }
     
     // init the things need it for mass storage
-    // TODO: move this into a constant
-    app->img_path = "/ext/apps_data/bad_usb_ex/bdsbxms.img";
+    app->img_path = RUBBER_DOLPHY_IMG;
     app->fs_api = furi_record_open(RECORD_STORAGE);
 
     bad_usb_load_settings(app);

@@ -1,6 +1,6 @@
 App(
-    appid="bad_usb_ex",
-    name="Bad USB EX",
+    appid="rubber_dolphy",
+    name="Rubber Dolphy",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="bad_usb_app",
     stack_size=2 * 1024,

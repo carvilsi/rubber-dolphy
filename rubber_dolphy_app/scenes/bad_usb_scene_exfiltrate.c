@@ -28,11 +28,11 @@ void bad_usb_scene_exfiltrate_on_enter(void* context)
         BadUsbApp* app = context;
         mass_storage_init(app);
         bad_usb_view_set_button_callback(app->bad_usb_view, bad_usb_scene_exfiltrate_button_callback, app);
-        widget_add_icon_element(app->exfltwdg, 0, 0, &I_EviSmile1_18x21);
+        widget_add_icon_element(app->exfltwdg, 20, 20, &I_EviSmile1_18x21);
         widget_add_string_multiline_element(
             app->exfltwdg,
             81,
-            4,
+            14,
             AlignCenter,
             AlignTop,
             FontSecondary,

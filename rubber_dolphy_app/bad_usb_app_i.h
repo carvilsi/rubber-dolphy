@@ -23,12 +23,18 @@
 #include "views/bad_usb_view.h"
 #include <furi_hal_usb.h>
 
-// TODO: move duckyscripts to own app folder /ext/apps_data/bad_usb_ex/
+// TODO: move duckyscripts to own app folder /ext/apps_data/rubber_dolphy/
+// Rigth now we still using the BadUSB folder
 #define BAD_USB_APP_BASE_FOLDER        EXT_PATH("badusb")
+// TODO: move layouts to own app folder /ext/apps_data/rubber_dolphy/
+// this will require to move also the BadUSB layouts, not sure if I like the idea yet
+// for now we still using the BadUSB folder
 #define BAD_USB_APP_PATH_LAYOUT_FOLDER BAD_USB_APP_BASE_FOLDER "/assets/layouts"
 // TODO: add another extension to make a difference e.g. *.fzds (flipper-zero ducky script)
 #define BAD_USB_APP_SCRIPT_EXTENSION   ".txt"
 #define BAD_USB_APP_LAYOUT_EXTENSION   ".kl"
+
+#define RUBBER_DOLPHY_IMG "/ext/apps_data/rubber_dolphy/msi/rdbdsbms.img"
 
 typedef enum {
     BadUsbAppErrorNoFiles,
