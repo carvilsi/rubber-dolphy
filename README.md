@@ -9,7 +9,7 @@ A PoC about BadUSB for FlipperZero with exfiltration capabilities on device via 
 
 # Rubber Dolphy
 
-The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perfom data exfiltration. 
+The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perform data exfiltration. 
 
 Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer. Testing this on a Mac OS still on the TODO list.
 
