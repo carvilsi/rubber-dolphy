@@ -45,6 +45,14 @@ On the *flipperzero-firmware* folder:
 
 `$ ./fbt launch APPSRC=rubber_dolphy`
 
+Rubber-Dolpy FAP will be under *Apps/USB/*
+
+### Upload the FAP
+
+Alternatively to compile and lauch the app, after **completing step FlipperZero preparation**, you can upload the latest *rubber_dolphy.fap* from [releases](https://github.com/carvilsi/rubber-dolphy/releases) to *SD Card/apps/USB/* folder on FlipperZero. 
+
+Do not forget to check the sha256sum ;)
+
 ### Ducky Scripts
 
 Under [ducky_scripts_examples folder](https://github.com/carvilsi/rubber-dolphy/tree/main/ducky_scripts_examples) in this repo you'll find examples for Linux and Windows. And another simple DuckyScript called *mount_mass_storage_img* to access the mass storage on your laptop and get the copied data.
