@@ -84,7 +84,7 @@ The DuckyScript copies and runs a script that waits until this unit is available
 
 Once the file was copied to FlipperZero, **click Back button** to exit from *mass storage* mode and change to *basusb* mode. Another DuckyScript could be run again. There is no way to know that the data was already copied into FlipperZero; it's worth to add a feedback to the end of copying process on the DuckyScript. 
 
-Here a DuckyScript example of the above described mechanism (bash).
+Here a DuckyScript example of the above described mechanism (bash) from [Linux Example](https://github.com/carvilsi/rubber-dolphy/blob/main/ducky_scripts_examples/exfiltration_linux_poc.txt).
 
 ```bash
 REM =================== Exfiltration PoC ===================
@@ -116,6 +116,8 @@ STRINGLN sh exfiltration.sh
 
 REM =======================================================
 ```
+
+A similar mechanism can be check on [Windows 11 Example](https://github.com/carvilsi/rubber-dolphy/blob/main/ducky_scripts_examples/exfiltration_win11_poc.txt)
 
 ## Comments
 
