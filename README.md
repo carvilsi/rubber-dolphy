@@ -1,5 +1,13 @@
+<div align="center">
+
+:broom: CutreLabs presents :broom:
+
+Rubber Dolphy
+
+A PoC about BadUSB for FlipperZero with exfiltration capabilities on device via mass storage
+</div>
+
 # Rubber Dolphy
-PoC about Bad USB for FlipperZero with exfiltration capabilities on device via mass storage
 
 The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perfom data exfiltration. 
 
