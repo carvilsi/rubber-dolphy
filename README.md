@@ -3,7 +3,7 @@ PoC about Bad USB for FlipperZero with exfiltration capabilities on device via m
 
 The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perfom data exfiltration. 
 
-Right now the project it's in a early code stage, not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer. Testing this on a Mac OS still on the TODO list.
+Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer. Testing this on a Mac OS still on the TODO list.
 
 I have some ideas that I would like to try in order to improve the whole thing and push features to have a more useful and versatile FlipperZero BadUSB device. If I feel that the project has a good welcome, people try it and give support at least with :star: I will ponder continue with this ideas.
 
@@ -27,7 +27,7 @@ Clone this repo somewhere on your machine.
 
 - Create *rubber_dolphy* folder on *SD Card/apps_data/*
 - Create *msi* folder on *SD Card/apps_data/rubber_dolphy*
-- Copy *rubber-dolphy/img/rdbdsbms.img* to *SD Card/apps_data/rubber_dolphy/msi/*
+- Copy *rubber-dolphy/mass_storage_img/rdbdsbms.img* to *SD Card/apps_data/rubber_dolphy/msi/*
 
 ### Compile and launch it on Flipper Zero
 
@@ -45,7 +45,7 @@ For now **Rubber Dolphy** still using the oficial *BadUSB* FlipperZero app asses
 
 #### How it works
 
-For now the exfiltration from the victim's machine requires manual action to perform the copy of the collected data. This is one of the points that I would like improve, trying to skip clicking when the DuckyScript finish.
+For now the exfiltration from the victim's machine requires manual action on FlipperZero to perform the copy of the collected data. This is one of the points that I would like improve, trying to skip clicking when the DuckyScript finish.
 
 A new Command called **STORAGE** has been added to the Command Set of [BadUSB File Format](https://developer.flipper.net/flipperzero/doxygen/badusb_file_format.html) in order to allow mass storage mode on FlipperZero once the DuckyScript has been finished. Then on the BadUSB GUI a button called *Exflt* appears. 
 
@@ -65,6 +65,8 @@ When clicking down, FlipperZero will exits BasdUSB mode and mounts a mass storag
 
 
 The DuckyScript copies and runs a script that waits until this unit is available on the victims machine, and then copies the data to exfiltrate.
+
+Once the file was copied to FlipperZero, just click Back button to exit from *mass storage* mode and change to *basusb* mode. Another DuckyScript could be run again.
 
 Here a DuckyScript example of the above described mechanism (bash).
 
@@ -88,7 +90,6 @@ STRINGLN until [ \`echo \$ms 2>/dev/null\` ];do gms;done;
 REM Copy the generated file on the Mass Storage
 STRINGLN cp my_data.txt \$ms
 
-STRINGLN # Done :)
 STRINGLN echo done :\)
 
 STRINGLN EOF
@@ -98,6 +99,12 @@ STRINGLN sh exfiltration.sh
 
 REM =======================================================
 ```
+
+## Comments
+
+The inspiration idea for this PoC came from this [FlipperZero Issue](https://github.com/flipperdevices/flipperzero-firmware/issues/1040)
+
+I combined the code of [FlipperZero BadUSB](https://github.com/flipperdevices/flipperzero-firmware/tree/dev/applications/main/bad_usb) and the one of [flipperzero-good-faps mass_storage app](https://github.com/flipperdevices/flipperzero-good-faps/tree/dev/mass_storage)
 
 ---
 
