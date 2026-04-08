@@ -21,11 +21,11 @@ For now image for mass storage capabilities has 4.2 MB and type FAT (12-bit vers
 
 ### Linux
 
-[![Linux PoC](https://raw.githubusercontent.com/carvilsi/rubber-dolphy/main/.github/images/thumbnail_flipper_exfiltration_bad_usb_linux_poc.png)](https://raw.githubusercontent.com/carvilsi/rubber-dolphy/main/.github/images/flipper_exfiltration_bad_usb_linux_poc.mp4)
+![Linux PoC](https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/flipper_exfiltration_bad_usb_linux_poc.webp)
 
 ### Windows
 
-[![Windows PoC](https://raw.githubusercontent.com/carvilsi/rubber-dolphy/main/.github/images/thumbnail_flipper_exfiltration_bad_usb_windows_poc.png)](https://raw.githubusercontent.com/carvilsi/rubber-dolphy/main/.github/images/flipper_exfiltration_bad_usb_windows_poc.mp4)
+![Windows PoC](https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/flipper_exfiltration_bad_usb_windows_poc.webp)
 
 ## Install and Run
 
