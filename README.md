@@ -125,6 +125,16 @@ The inspiration idea for this PoC came from this [FlipperZero Issue](https://git
 
 I combined the code of [FlipperZero BadUSB](https://github.com/flipperdevices/flipperzero-firmware/tree/dev/applications/main/bad_usb) and the one of [flipperzero-good-faps mass_storage app](https://github.com/flipperdevices/flipperzero-good-faps/tree/dev/mass_storage)
 
+## Sponsors :hearts:
+
+Checkout or awesome sponsors!
+
+<div align="center">
+    <a href="https://www.pcbway.com/" target="_blank">
+        <img src="https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/PCBWay_sponsor.png" alt="PCBWay">
+    </a>
+</div>
+
 ---
 
 ⚠️ ADVISORY: This FlipperZero APP should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own computers and/or with the computer owner's permission.
