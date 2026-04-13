@@ -131,7 +131,7 @@ Checkout or awesome sponsors!
 
 <div align="center">
     <a href="https://www.pcbway.com/" target="_blank">
-        <img src="https://github.com/carvilsi/rubber-dolphy/blob/sponsors/.github/images/PCBWay_sponsor.png" alt="PCBWay">
+        <img src="https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/PCBWay_sponsor.png" alt="PCBWay">
     </a>
 </div>
 
