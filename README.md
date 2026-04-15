@@ -11,7 +11,7 @@ A PoC about BadUSB for FlipperZero with exfiltration capabilities on device via 
 
 The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perform data exfiltration. 
 
-Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer and on a Mac OS Ventura 13.7.8 with an Intel processori (wondering how it works on an ARM processor).
+Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer and on a Mac OS Ventura 13.7.8 with an Intel processor also wondering how it works on a new ARM processor (of course Terminal.app needs Full Disk Access).
 
 I have some ideas that I would like to try in order to improve the whole thing and push features to have a more useful and versatile FlipperZero BadUSB device. If I feel that the project has a good welcome, people try it and give support at least with :star: I will ponder continue with this ideas.
 
