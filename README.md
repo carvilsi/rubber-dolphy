@@ -11,7 +11,7 @@ A PoC about BadUSB for FlipperZero with exfiltration capabilities on device via 
 
 The idea is to have a way to copy some data into FlipperZero when using it as **BadUsb** device, to perform data exfiltration. 
 
-Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer. Testing this on a Mac OS still on the TODO list.
+Right now the project it's in a early code stage (it's just a hack), not more than a PoC and kind of "only works on my computers", I tested it on a **Arch Linux** and on a **Windows 11** computer and on a Mac OS Ventura 13.7.8 with an Intel processor also wondering how it works on a new ARM processor (of course Terminal.app needs Full Disk Access).
 
 I have some ideas that I would like to try in order to improve the whole thing and push features to have a more useful and versatile FlipperZero BadUSB device. If I feel that the project has a good welcome, people try it and give support at least with :star: I will ponder continue with this ideas.
 
@@ -23,9 +23,13 @@ For now image for mass storage capabilities has 4.2 MB and type FAT (12-bit vers
 
 ![Linux PoC](https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/flipper_exfiltration_bad_usb_linux_poc.webp)
 
-### Windows
+### Windows 11
 
 ![Windows PoC](https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/flipper_exfiltration_bad_usb_windows_poc.webp)
+
+### MacOS 
+
+![MacOS PoC](https://github.com/carvilsi/rubber-dolphy/blob/main/.github/images/flipper_exfiltration_bad_usb_macos_poc.webp)
 
 ## Install and Run
 
@@ -55,7 +59,7 @@ Do not forget to check the sha256sum ;)
 
 ### Ducky Scripts
 
-Under [ducky_scripts_examples folder](https://github.com/carvilsi/rubber-dolphy/tree/main/ducky_scripts_examples) in this repo you'll find examples for Linux and Windows. And another simple DuckyScript called *mount_mass_storage_img* to access the mass storage on your laptop and get the copied data.
+Under [ducky_scripts_examples folder](https://github.com/carvilsi/rubber-dolphy/tree/main/ducky_scripts_examples) in this repo you'll find examples for Linux, Windows and MacOS. And another simple DuckyScript called *mount_mass_storage_img* to access the mass storage on your laptop and get the copied data.
 
 For now **Rubber Dolphy** still using the oficial *BadUSB* FlipperZero app assests folder, to deal with *layouts* and to select the *duckyscript* to run, therefore you must upload your duckyscripts to *SD Card/badusb/* folder.
 
@@ -117,7 +121,7 @@ STRINGLN sh exfiltration.sh
 REM =======================================================
 ```
 
-A similar mechanism can be check on [Windows 11 Example](https://github.com/carvilsi/rubber-dolphy/blob/main/ducky_scripts_examples/exfiltration_win11_poc.txt)
+A similar mechanism can be check on [Windows 11 Example](https://github.com/carvilsi/rubber-dolphy/blob/main/ducky_scripts_examples/exfiltration_win11_poc.txt) and for [MacOS](https://github.com/carvilsi/rubber-dolphy/blob/main/ducky_scripts_examples/exfiltration_macos_poc.txt)
 
 ## Comments
 
