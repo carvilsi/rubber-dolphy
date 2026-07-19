@@ -37,9 +37,9 @@ Clone this repo somewhere on your machine.
 
 ### Flipper Zero preparation
 
-- Create *rubber_dolphy* folder on *SD Card/apps_data/*
-- Create *msi* folder on *SD Card/apps_data/rubber_dolphy*
-- Copy *rubber-dolphy/mass_storage_img/rdbdsbms.img* to *SD Card/apps_data/rubber_dolphy/msi/*
+- At FlipperZero create *rubber_dolphy* folder on *"SD Card/apps_data/"*
+- At FlipperZero create *msi* folder on *"SD Card/apps_data/rubber_dolphy"*
+- Copy *rubber-dolphy/mass_storage_img/rdbdsbms.img* from this repo to *"SD Card/apps_data/rubber_dolphy/msi/"* on Flipper Zero
 
 ### Compile and launch it on Flipper Zero
 
@@ -53,9 +53,30 @@ Rubber-Dolpy FAP will be under *Apps/USB/*
 
 ### Upload the FAP
 
-Alternatively to compile and lauch the app, after **completing step FlipperZero preparation**, you can upload the latest *rubber_dolphy.fap* from [releases](https://github.com/carvilsi/rubber-dolphy/releases) to *SD Card/apps/USB/* folder on FlipperZero. 
+Alternatively to compile and lauch the app, after **completing step FlipperZero preparation**, you can upload the latest *rubber_dolphy.fap* from [releases](https://github.com/carvilsi/rubber-dolphy/releases) to *"SD Card/apps/USB/"* folder on FlipperZero. 
 
 Do not forget to check the sha256sum ;)
+
+### Retrieve Exfiltrated Data
+
+#### Linux
+
+- From FlipperZero copy *"SD Card/apps_data/rubber_dolphy/msi/rdbdsbms.img"* to your machine.
+- Mount the image.
+- Copy the exlitrated file.
+- Umount the image.
+
+Example:
+
+Once with the rdbdsbms.img on my */tmp* folder.
+
+```bash
+cd /tmp
+mkdir exfiltrated-data-from-flipper
+sudo mount -o loop rdbdsbms.img exfiltrated-data-from-flipper/
+cat exfiltrated-data-from-flipper/my_data.txt
+sudo umount exfiltrated-data-from-flipper/
+```
 
 ### Ducky Scripts
 
