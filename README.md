@@ -160,3 +160,129 @@ Feedback from usage and contributions are very welcome.
 Also if you like it, please leave a :star: I would appreciate it ;)
 
 Hack The Planet! 
+
+---
+
+### WIP Autodetect OS
+
+```mermaid
+flowchart TB
+    cfz([Exec RubberDolphy<br>Payload]) --> mode{OS Autodetect?}
+    mode -->|yes| scrpts{find tracks scripts}
+    mode -->|no| interact[User Interact Mode]
+    subgraph TODO[TODO]
+        scrpts --> scrpts_linux[linux] --> wait[Wait]
+        scrpts --> scrpts_windows[Windows] --> wait
+        scrpts --> scrpts_macos[MacOS] --> wait
+        wait -.-> start_storage_mode[Start Storage<br>Mode]
+        start_storage_mode --> wrt[Write OS file] 
+        wrt ==>|copy to|storage[Storage]
+        storage --> wait1[Wait] -.-> stop_storage_mode[Exit Storage<br>Mode]
+    end 
+    
+    subgraph done0[DONE]
+        stop_storage_mode -->|read| tracks{search 4 tracks}    
+    end
+    
+    tracks -->|linux| fzv[Set FlipperZero flag]
+    tracks -->|MacOS| fzv
+    tracks -->|windos| fzv
+```
+
+```c
+/**
+ * @file example_apps_data.c
+ * @brief Application data example.
+ */
+#include <furi.h>
+#include <storage/storage.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#define STRINGS_BUF_SIZE 128
+#define READ_BUF_SIZE    512
+
+// Define log tag
+#define TAG "ExampleAppsData"
+
+typedef void (*StringsCallback)(const char* str, void* ctx);
+
+bool extract_strings(
+    File* file,
+    size_t min_len,
+    StringsCallback callback,
+    void* ctx) {
+
+    uint8_t read_buf[READ_BUF_SIZE];
+    char str_buf[STRINGS_BUF_SIZE];
+    size_t str_len = 0;
+
+    while(true) {
+        size_t bytes = storage_file_read(file, read_buf, sizeof(read_buf));
+
+        if(bytes == 0) {
+            break;
+        }
+
+        for(size_t i = 0; i < bytes; i++) {
+            uint8_t c = read_buf[i];
+
+             if((c >= 32 && c <= 126) || c == '\t') {
+
+                if(str_len < (sizeof(str_buf) - 1)) {
+                    str_buf[str_len++] = c;
+                }
+            } else {
+                if(str_len >= min_len) {
+                    str_buf[str_len] = '\0';
+                    callback(str_buf, ctx);
+                }
+
+                str_len = 0;
+            }
+        }
+    }
+
+    /* Flush final string if file ended with printable chars */
+    if(str_len >= min_len) {
+        str_buf[str_len] = '\0';
+        callback(str_buf, ctx);
+    }
+
+    return storage_file_eof(file);
+}
+
+static void print_string(const char* str, void* ctx) {
+        UNUSED(ctx);
+        FURI_LOG_I(TAG, "%s", str);
+}
+
+// Application entry point
+int32_t example_apps_data_main(void* p) {
+    // Mark argument as unused
+    UNUSED(p);
+
+    // Open storage
+    Storage* storage = furi_record_open(RECORD_STORAGE);
+
+    // Allocate file
+    File* file = storage_file_alloc(storage);
+
+    // Let's try to read
+    if(storage_file_open(file, "/ext/apps_data/rubber_dolphy/msi/rdbdsbms.img", FSAM_READ, FSOM_OPEN_EXISTING)) {
+        extract_strings(file, 4, print_string, NULL);
+
+        storage_file_close(file);
+    } else {
+        FURI_LOG_E(TAG, "Failed to open file");
+    }
+
+    // Deallocate file
+    storage_file_free(file);
+
+    // Close storage
+    furi_record_close(RECORD_STORAGE);
+
+    return 0;
+}
+```
