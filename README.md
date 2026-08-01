@@ -167,26 +167,64 @@ Hack The Planet!
 
 ```mermaid
 flowchart TB
-    cfz([Exec RubberDolphy<br>Payload]) --> mode{OS Autodetect?}
-    mode -->|yes| scrpts{find tracks scripts}
-    mode -->|no| interact[User Interact Mode]
+    cfz([Exec RubberDolphy<br>Payload]) --> mode{On user payload?<br>OS_AUTODETECT}
+    mode -->|yes| auto_detect_os
+    mode -->|no| storage{On user payload?<br>STORAGE}
     subgraph TODO[TODO]
-        scrpts --> scrpts_linux[linux] --> wait[Wait]
-        scrpts --> scrpts_windows[Windows] --> wait
-        scrpts --> scrpts_macos[MacOS] --> wait
-        wait -.-> start_storage_mode[Start Storage<br>Mode]
-        start_storage_mode --> wrt[Write OS file] 
-        wrt ==>|copy to|storage[Storage]
-        storage --> wait1[Wait] -.-> stop_storage_mode[Exit Storage<br>Mode]
-    end 
-    
-    subgraph done0[DONE]
-        stop_storage_mode -->|read| tracks{search 4 tracks}    
+        auto_detect_os[Auto Detect Mode] --> scrpts{exec find tracks<br>template payload}
+        subgraph find_tracks[FIND TRACKS PAYLOAD]
+            scrpts -->|try|scrpts_linux[linux] -->|tracks|persist_fs[Write to target FS]
+            scrpts -->|try|scrpts_windows[Windows] -->|tracks|persist_fs[Write to target FS] 
+            scrpts -->|try|scrpts_macos[MacOS] -->|tracks|persist_fs[Write to target FS]
+        end
+        persist_fs[Write to target FS]-->wait[Wait]
+        wait -.-> start_storage_mode[Auto Start Storage<br>Mode]
+        start_storage_mode ==>|tracks copy to|fz_storage[Storage]
+        fz_storage --> wait1[Wait] -.-> stop_storage_mode[Auto Exit Storage<br>Mode]
+    end   
+    stop_storage_mode -->|read| tracks{retrieve<br>tracks findings}  
+    tracks -->|linux| fzf[Set FlipperZero flag]
+    tracks -->|MacOS| fzf
+    tracks -->|windos| fzf
+    fzf --> storage
+    storage -->|yes && !auto-os-detection|user_storage_mode[User Storage Mode]
+    storage -->|yes && auto-os-detection|auto_storage_mode[Auto Storage Mode]
+    storage -->|no|normal[Normal Mode]
+    user_storage_mode -->|user payload|write_fs[Writes to FS]
+    write_fs ==>|payload ends|exfl[Exfiltration Button]
+    normal -->finish([End])
+    auto_storage_mode ==>|template payload|write_fs
+    exfl -->|mounts|drv[External Drive]
+    write_fs -->|copies|drv-->finish
+    subgraph legend[Legend]
+        tod[TODOs]
+        don[Done]
+        usr[User Interaction]
+        wip[PoC; still WIP]
     end
-    
-    tracks -->|linux| fzv[Set FlipperZero flag]
-    tracks -->|MacOS| fzv
-    tracks -->|windos| fzv
+%% Class definitions
+classDef user fill:#fff3cd,stroke:#e0a800,stroke-width:2px,color:#000;
+classDef auto fill:#d6ecff,stroke:#1e88e5,stroke-width:2px,color:#000;
+classDef todo fill:#ffdddd,stroke:#d32f2f,stroke-width:2px,color:#000;
+classDef done fill:#d4edda,stroke:#28a745,stroke-width:2px,color:#000;
+classDef poc fill:#ff6f00,stroke:#bf360c,stroke-width:2px,color:#fff;
+
+%% TODOs
+class wait,wait1 todo
+class start_storage_mode,stop_storage_mode todo
+class mode,auto_detect_os todo
+class scrpts,scrpts_linux,scrpts_windows,scrpts_macos todo
+class fzf todo
+class auto_storage_mode todo
+class tod todo
+%% Done
+class don,persist_fs,fz_storage,storage,normal,user_storage_mode,storage1,write_fs,drv done
+%% PoC done but still need to implement
+class tracks,wip poc
+
+%% User Actions
+class cfz,finish,exfl,usr user
+
 ```
 
 ```c
