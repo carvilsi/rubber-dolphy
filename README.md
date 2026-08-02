@@ -187,15 +187,17 @@ flowchart TB
     tracks -->|MacOS| fzf
     tracks -->|windos| fzf
     fzf --> storage
-    storage -->|yes && !auto-os-detection|user_storage_mode[User Storage Mode]
-    storage -->|yes && auto-os-detection|auto_storage_mode[Auto Storage Mode]
+    storage -->|yes|mode_os{OS_AUTODETECT?}
+    mode_os -->|no|user_storage_mode[User Storage Mode]
+    mode_os -->|yes|auto_storage_mode[Auto Storage Mode]
     storage -->|no|normal[Normal Mode]
     user_storage_mode -->|user payload|write_fs[Writes to FS]
     write_fs ==>|payload ends|exfl[Exfiltration Button]
     normal -->finish([End])
     auto_storage_mode ==>|template payload|write_fs
     exfl -->|mounts|drv[External Drive]
-    write_fs -->|copies|drv-->finish
+    drv -->|0: once available|write_fs 
+    write_fs -->|1: copies|drv-->finish
     subgraph legend[Legend]
         tod[TODOs]
         don[Done]
@@ -215,7 +217,7 @@ class start_storage_mode,stop_storage_mode todo
 class mode,auto_detect_os todo
 class scrpts,scrpts_linux,scrpts_windows,scrpts_macos todo
 class fzf todo
-class auto_storage_mode todo
+class auto_storage_mode,mode_os todo
 class tod todo
 %% Done
 class don,persist_fs,fz_storage,storage,normal,user_storage_mode,storage1,write_fs,drv done
